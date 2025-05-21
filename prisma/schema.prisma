@@ -17,3 +17,42 @@ model User {
 
   @@map("users")
 }
+
+model Veiculo {
+  id              String            @id
+  modelo          String
+  cor             String
+  pneu            String
+  cambio          String
+  motor           String
+  createdAt       DateTime
+  updatedAt       DateTime
+  aprovado        Boolean
+  EstoqueId       String?
+  Veiculo_Estoque Veiculo_Estoque[]
+
+  @@map("veiculos")
+}
+
+model Estoque {
+  id              String            @id
+  descricao       String
+  marca           String
+  quantidade      Int
+  createdAt       DateTime
+  updatedAt       DateTime
+  veiculoId       String?
+  Veiculo_Estoque Veiculo_Estoque[]
+
+  @@map("estoque")
+}
+
+model Veiculo_Estoque {
+  veiculoId String
+  estoqueId String
+  veiculo   Veiculo @relation(fields: [veiculoId], references: [id])
+  estoque   Estoque @relation(fields: [estoqueId], references: [id])
+
+  @@id([veiculoId, estoqueId])
+  @@map("veiculo_estoque")
+}
