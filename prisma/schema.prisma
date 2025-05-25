@@ -22,13 +22,9 @@ model Veiculo {
   id              String            @id
   modelo          String
   cor             String
-  pneu            String
-  cambio          String
-  motor           String
   createdAt       DateTime
   updatedAt       DateTime
   aprovado        Boolean
-  EstoqueId       String?
   Veiculo_Estoque Veiculo_Estoque[]
 
   @@map("veiculos")
@@ -41,7 +37,6 @@ model Estoque {
   quantidade      Int
   createdAt       DateTime
   updatedAt       DateTime
-  veiculoId       String?
   Veiculo_Estoque Veiculo_Estoque[]
 
   @@map("estoque")
