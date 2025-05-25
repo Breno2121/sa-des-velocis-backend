@@ -29,6 +29,20 @@ class EstoqueService {
     });
     return produtos;
   }
-}
+  public async getByDescricao(descricao: string): Promise<Estoque[]> {
+    const produtos = await prisma.estoque.findMany({
+      where: {
+        descricao: {
+          equals: descricao,
+          mode: "insensitive", // Para Ignorar maiúsculas/minúsculas
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
+    return produtos;
+  }
+}
 export const estoqueService = new EstoqueService();

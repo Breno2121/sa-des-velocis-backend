@@ -11,19 +11,22 @@ import { estoqueController } from "./controller/EstoqueController";
 const app = fastify();
 
 app.register(cors, {
-    origin: true,
-    methods: ["GET", "POST", "PATCH", "DELETE"]
+  origin: true,
+  methods: ["GET", "POST", "PATCH", "DELETE"],
 });
 
 app.register(fastifySwagger, swaggerConfig as any);
-app.register(fastifySwaggerUi, { routePrefix: '/docs', uiConfig: { docExpansion: 'list'}})
+app.register(fastifySwaggerUi, {
+  routePrefix: "/docs",
+  uiConfig: { docExpansion: "list" },
+});
 
-app.register(authJwt)
-app.register(userController)
-app.register(veiculoController)
-app.register(estoqueController)
+app.register(authJwt);
+app.register(userController);
+app.register(veiculoController);
+app.register(estoqueController);
 
 const PORT = 3333;
 app.listen({ port: PORT }).then(() => {
-    console.log(`Backend rodando na porta ${PORT}!`)
-})
+  console.log(`Backend rodando na porta ${PORT}!`);
+});

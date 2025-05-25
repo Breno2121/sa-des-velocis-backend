@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { veiculoService } from "../service/VeiculoService";
 
 export async function veiculoController(app: FastifyInstance) {
-  app.post("/veiculo", async (request, reply) => {
+  app.post("/veiculos", async (request, reply) => {
     const body = request.body as CreateVeiculoType;
 
     try {
@@ -15,8 +15,8 @@ export async function veiculoController(app: FastifyInstance) {
 
   app.get("/veiculos", async (request, reply) => {
     try {
-      const veiculos = await veiculoService.getAll(); // não precisa de body
-      return reply.code(200).send(veiculos); // responde com os dados
+      const veiculos = await veiculoService.getAll();
+      return reply.code(200).send(veiculos);
     } catch (error: any) {
       return reply.code(400).send({ erro: error.message });
     }
