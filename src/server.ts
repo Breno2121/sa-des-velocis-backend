@@ -15,6 +15,7 @@ app.register(cors, {
   methods: ["GET", "POST", "PATCH", "DELETE"],
 });
 
+
 app.register(fastifySwagger, swaggerConfig as any);
 app.register(fastifySwaggerUi, {
   routePrefix: "/docs",

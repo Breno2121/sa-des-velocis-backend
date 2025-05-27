@@ -30,7 +30,7 @@ export async function estoqueController(app: FastifyInstance) {
     const { descricao } = request.query as { descricao: string };
 
     if (!descricao) {
-      return reply.code(400).send({ erro: "Descrição é obrigatória na query" });
+      return reply.code(400).send({ erro: "Descrição é obrigatória" });
     }
 
     try {

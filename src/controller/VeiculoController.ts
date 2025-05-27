@@ -21,14 +21,14 @@ export async function veiculoController(app: FastifyInstance) {
       return reply.code(400).send({ erro: error.message });
     }
   });
-  app.patch("/veiculo/status", async (request, reply) => {
-    const { id, status } = request.body as {
+  app.patch("/veiculos/status", async (request, reply) => {
+    const { id, aprovado: aprovado } = request.body as {
       id: string;
-      status: true | false;
+      aprovado: true | false;
     };
 
     try {
-      const veiculoAtualizado = await veiculoService.updateStatus(id, status);
+      const veiculoAtualizado = await veiculoService.updateStatus(id, aprovado);
       return reply.code(200).send(veiculoAtualizado);
     } catch (error: any) {
       return reply.code(400).send({ erro: error.message });

@@ -1,6 +1,7 @@
 type CreateVeiculoType = {
   modelo: string;
   cor: string;
-  aprovado: boolean;
-  estoqueId: string;
+  motorId: string;
+  cambioId: string;
+  pneuId: string;
 };
