@@ -1,5 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { veiculoService } from "../service/VeiculoService";
+import { prisma } from "../prisma/client";
 
 export async function veiculoController(app: FastifyInstance) {
   app.post("/veiculos", async (request, reply) => {
@@ -21,11 +22,9 @@ export async function veiculoController(app: FastifyInstance) {
       return reply.code(400).send({ erro: error.message });
     }
   });
-  app.patch("/veiculos/status", async (request, reply) => {
-    const { id, aprovado: aprovado } = request.body as {
-      id: string;
-      aprovado: true | false;
-    };
+  app.patch("/veiculos/:id/status", async (request, reply) => {
+    const { id } = request.params as { id: string };
+    const { aprovado } = request.body as { aprovado: boolean };
 
     try {
       const veiculoAtualizado = await veiculoService.updateStatus(id, aprovado);
