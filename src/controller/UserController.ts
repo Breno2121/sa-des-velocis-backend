@@ -4,9 +4,9 @@ import { loginSchema, registerSchema } from "../config/schema/auth.schema";
 
 export async function userController(app: FastifyInstance) {
 
-    app.post("/user/register", { schema: registerSchema }, async (request: FastifyRequest, reply: FastifyReply) => {
+    app.post("/user/register",  async (request,  reply) => {
         const body = request.body as CreateUserType;
-
+        console.log(body)
         try {
             await userService.register(body)
             return reply.code(201).send();
@@ -15,9 +15,9 @@ export async function userController(app: FastifyInstance) {
         }
     })
 
-    app.post("/user/login", { schema: loginSchema }, async (request: FastifyRequest, reply: FastifyReply) => {
+    app.post("/users/login", async (request, reply) => {
         const body = request.body as LoginType;
-
+        console.log(body)
         try {
             const token = await userService.login(body, app)
             return reply.code(200).send({ access_token: token });
@@ -26,4 +26,5 @@ export async function userController(app: FastifyInstance) {
         }
     })
 
+    
 }
