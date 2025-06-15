@@ -1,48 +1,55 @@
-  import { Estoque } from "@prisma/client";
-  import { prisma } from "../prisma/client";
+import { Estoque } from "@prisma/client";
+import { prisma } from "../prisma/client";
 
-  class EstoqueService {
-    public async create({
+class EstoqueService {
+  public async create({
+    descricao,
+    marca,
+    quantidade,
+  }: CreateEstoqueType): Promise<void> {
+    const estoque: Estoque = {
+      id: crypto.randomUUID(),
       descricao,
       marca,
-      quantidade,
-    }: CreateEstoqueType): Promise<void> {
-      const estoque: Estoque = {
-        id: crypto.randomUUID(),
-        descricao,
-        marca,
-        quantidade: Number(quantidade), 
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
+      quantidade: Number(quantidade),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
 
-      await prisma.estoque.create({
-        data: estoque,
-      });
-    }
-
-    public async getAll(): Promise<any[]> {
-      const produtos = await prisma.estoque.findMany({
-        orderBy: {
-          createdAt: "desc",
-        },
-      });
-      return produtos;
-    }
-    public async getByDescricao(descricao: string): Promise<Estoque[]> {
-      const produtos = await prisma.estoque.findMany({
-        where: {
-          descricao: {
-            equals: descricao,
-            mode: "insensitive", // Para Ignorar maiúsculas/minúsculas
-          },
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-      });
-
-      return produtos;
-    }
+    await prisma.estoque.create({
+      data: estoque,
+    });
   }
-  export const estoqueService = new EstoqueService();
+
+  public async getAll(): Promise<any[]> {
+    const produtos = await prisma.estoque.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return produtos;
+  }
+  public async getByDescricao(descricao: string): Promise<Estoque[]> {
+    const produtos = await prisma.estoque.findMany({
+      where: {
+        descricao: {
+          equals: descricao,
+          mode: "insensitive", // Para Ignorar maiúsculas/minúsculas
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return produtos;
+  }
+
+  public async getAllVeiculos() {
+    const allVeiculos = await prisma.veiculo.findMany({});
+    console.log(`Array de veiculos${allVeiculos}`);
+    return allVeiculos;
+  }
+}
+
+export const estoqueService = new EstoqueService();

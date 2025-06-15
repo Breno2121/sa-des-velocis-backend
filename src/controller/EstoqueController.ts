@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { estoqueService } from "../service/EstoqueService";
 
 export async function estoqueController(app: FastifyInstance) {
@@ -40,4 +40,13 @@ export async function estoqueController(app: FastifyInstance) {
       return reply.code(400).send({ erro: error.message });
     }
   });
+
+    app.get("/allVeiculo", async (request: FastifyRequest, reply: FastifyReply) => {
+        try {
+          const veiculos = await estoqueService.getAllVeiculos();
+          return reply.code(200).send(veiculos);
+        } catch (error: any) {
+          return reply.code(400).send({ erro: error.message });
+        }
+    });
 }
