@@ -41,14 +41,49 @@ class EstoqueService {
         createdAt: "desc",
       },
     });
-
     return produtos;
   }
 
   public async getAllVeiculos() {
-    const allVeiculos = await prisma.veiculo.findMany({});
-    console.log(`Array de veiculos${allVeiculos}`);
-    return allVeiculos;
+    const veiculos = await prisma.veiculo.findMany({
+      include: {
+        Veiculo_Estoque: {
+          include: {
+            estoque: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    // Formata os dados para incluir motor, pneu e cambio separados
+    return veiculos.map((veiculo) => {
+      const motor = veiculo.Veiculo_Estoque.find((e) =>
+        e.estoque.descricao.toLowerCase().includes("motor")
+      )?.estoque;
+
+      const pneu = veiculo.Veiculo_Estoque.find((e) =>
+        e.estoque.descricao.toLowerCase().includes("pneu")
+      )?.estoque;
+
+      const cambio = veiculo.Veiculo_Estoque.find((e) =>
+        e.estoque.descricao.toLowerCase().includes("cambio")
+      )?.estoque;
+
+      return {
+        id: veiculo.id,
+        modelo: veiculo.modelo,
+        cor: veiculo.cor,
+        aprovado: veiculo.aprovado,
+        createdAt: veiculo.createdAt,
+        updatedAt: veiculo.updatedAt,
+        motor,
+        pneu,
+        cambio,
+      };
+    });
   }
 }
 

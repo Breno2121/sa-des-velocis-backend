@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import { prisma } from "../prisma/client";
 
 class VeiculoService {
@@ -8,7 +9,7 @@ class VeiculoService {
     pneuId,
     cambioId
   }: CreateVeiculoType): Promise<void> {
-    const veiculoId = crypto.randomUUID();
+    const veiculoId = nanoid(10);
 
     const estoque = await prisma.estoque.findMany({
       where: {
@@ -34,7 +35,6 @@ class VeiculoService {
       }
     });
 
-
     await prisma.$transaction([
       prisma.veiculo.create({
         data: {
@@ -46,7 +46,6 @@ class VeiculoService {
           updatedAt: new Date(),
         },
       }),
-
 
       prisma.veiculo_Estoque.createMany({
         data: [
